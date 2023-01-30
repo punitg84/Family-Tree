@@ -16,7 +16,7 @@ public class NodeController {
     return null;
   }
 
-  Node createNode(String id,String name){
+  Node createNode(String id,String name, List<String> additionalInfo){
     //return object of node
     return null;
   }

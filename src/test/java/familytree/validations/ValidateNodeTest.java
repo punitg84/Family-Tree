@@ -10,6 +10,7 @@ import familytree.validations.validatenodecollectiontestscenario.ValidateNodeIdT
 import familytree.validations.validatenodetestscenario.ValidateDependencyTestScenario;
 import familytree.validations.validatenodetestscenario.ValidateNodeTestScenario;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ class ValidateNodeTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>())
+        .additionalInfo(new HashMap<>())
         .build();
 
     Node invalidNode = Node.builder()
@@ -32,6 +34,7 @@ class ValidateNodeTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>())
+        .additionalInfo(new HashMap<>())
         .build();
 
     //Test Case 1 - Valid Node
@@ -74,6 +77,7 @@ class ValidateNodeTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>())
+        .additionalInfo(new HashMap<>())
         .build();
 
     Node parentWithNoChild = Node.builder()
@@ -81,6 +85,7 @@ class ValidateNodeTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>())
+        .additionalInfo(new HashMap<>())
         .build();
 
     Node parentWithGivenChild = Node.builder()
@@ -88,6 +93,7 @@ class ValidateNodeTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>(Arrays.asList(child)))
+        .additionalInfo(new HashMap<>())
         .build();
 
     //Test Case 1 Dependency doesn't exist
@@ -134,6 +140,7 @@ class ValidateNodeTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>())
+        .additionalInfo(new HashMap<>())
         .build();
 
     Node parentWithNoChild = Node.builder()
@@ -141,6 +148,7 @@ class ValidateNodeTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>())
+        .additionalInfo(new HashMap<>())
         .build();
 
     Node parentWithGivenChild = Node.builder()
@@ -148,6 +156,7 @@ class ValidateNodeTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>(Arrays.asList(child)))
+        .additionalInfo(new HashMap<>())
         .build();
 
     //Test Case 1 Dependency doesn't exist

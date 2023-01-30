@@ -4,6 +4,7 @@ import static familytree.constants.ValidationMessage.ID_EMPTY_MESSAGE;
 import static familytree.constants.ValidationMessage.NAME_EMPTY_MESSAGE;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.util.HashMap;
 import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +25,7 @@ public class Node {
   private Set<@NonNull Node> parent;
 
   private Set<@NonNull Node> children;
+
+  private HashMap<@NotEmpty String,@NotEmpty String> additionalInfo;
 
 }

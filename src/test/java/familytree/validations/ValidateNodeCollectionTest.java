@@ -8,6 +8,7 @@ import familytree.controllers.FamilyTreeController;
 import familytree.models.Node;
 import familytree.validations.validatenodecollectiontestscenario.ValidateNodeIdTestScenario;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Stream;
@@ -23,6 +24,7 @@ class ValidateNodeCollectionTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>())
+        .additionalInfo(new HashMap<>())
         .build();
 
     //Test Case 1 ID exist
@@ -70,6 +72,7 @@ class ValidateNodeCollectionTest {
         .id("101")
         .parent(new HashSet<>())
         .children(new HashSet<>())
+        .additionalInfo(new HashMap<>())
         .build();
 
     //Test Case 1 ID exist
