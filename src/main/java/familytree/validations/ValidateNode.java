@@ -21,15 +21,15 @@ public class ValidateNode {
     }
   }
 
-  private static boolean isGivenChildPresent(Node parent,Node child){
+  private static boolean isDependencyPresent(Node parent,Node child){
     return false;
   }
 
-  public static void validateGivenChildPresent(Node parent,Node child){
+  public static void validateDependencyPresent(Node parent,Node child){
 
   }
 
-  public static void validateGivenChildAbsent(Node parent,Node child){
+  public static void validateDependencyAbsent(Node parent,Node child){
 
   }
 

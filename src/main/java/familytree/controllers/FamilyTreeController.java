@@ -42,7 +42,7 @@ public class FamilyTreeController {
     //atlast remove mapping from node collection controller
   }
 
-  void addNode(String id,String name){
+  public static void addNode(String id,String name){
     //call add node from node collection controller
   }
 
