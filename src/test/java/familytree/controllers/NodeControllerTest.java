@@ -6,32 +6,30 @@ class NodeControllerTest {
 
   @Test
   void getParent() {
-
   }
 
   @Test
   void getChildren() {
-
   }
 
   @Test
   void createNode() {
-
   }
 
   @Test
   void addChild() {
-
   }
 
   @Test
   void removeChild() {
-
   }
 
   @Test
   void removeParent() {
+  }
 
+  @Test
+  void isDependencyPresent() {
   }
 
 }

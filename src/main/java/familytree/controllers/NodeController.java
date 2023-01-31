@@ -6,32 +6,36 @@ import java.util.Set;
 
 public class NodeController {
 
-  List<Node> getParent(Node node){
+  public boolean isDependencyPresent(Node parent,Node child){
+    return false;
+  }
+
+  public Set<Node> getParent(Node node){
     // return its parent
     return null;
   }
 
-  List<Node> getChildren(Node node){
+  public Set<Node> getChildren(Node node){
     // return its children
     return null;
   }
 
-  Node createNode(String id,String name, List<String> additionalInfo){
+  public Node createNode(String id,String name, List<String> additionalInfo){
     //return object of node
     return null;
   }
 
-  void addChild(Node parent,Node child){
+  public void addChild(Node parent,Node child){
     //Perform validation that no such relation exist
     //add it
   }
 
-  void removeChild(Node parent,Node child){
+  public void removeChild(Node parent,Node child){
     //Perform validation that there is a children present
     //remove it
   }
 
-  void removeParent(Node node){
+  public void removeParent(Node node){
     //remove parent to null
   }
 
