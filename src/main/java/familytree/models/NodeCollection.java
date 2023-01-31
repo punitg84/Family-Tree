@@ -20,15 +20,15 @@ public class NodeCollection {
     return nodeCollectionInstance;
   }
 
-  void addMapping(String id, Node node){
+  public void addMapping(String id, Node node){
     nodeMap.put(id,node);
   }
 
-  void removeMapping(String id){
+  public void removeMapping(String id){
     nodeMap.remove(id);
   }
 
-  boolean isNodePresent(String id){
+  public boolean isNodePresent(String id){
     return nodeMap.containsKey(id);
   }
 }
