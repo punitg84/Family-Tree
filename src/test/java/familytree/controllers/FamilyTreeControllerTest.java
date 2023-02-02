@@ -39,18 +39,22 @@ class FamilyTreeControllerTest {
     parent = Node.builder()
         .id("3")
         .name("parent")
+        .parent(new HashSet<>())
+        .children(new HashSet<>())
         .build();
 
     childNode1 = Node.builder()
         .id("1")
         .name("child")
         .parent(new HashSet<>(Arrays.asList(parent)))
+        .children(new HashSet<>())
         .build();
 
     childNode2 = Node.builder()
         .id("2")
         .name("child")
         .parent(new HashSet<>(Arrays.asList(parent)))
+        .children(new HashSet<>())
         .build();
 
     parent.setChildren(new HashSet<>(Arrays.asList(childNode1, childNode2)));
@@ -60,9 +64,9 @@ class FamilyTreeControllerTest {
 
   @BeforeEach
   void setup() {
-    nodeCollection.addMapping(parent.getId(), parent);
-    nodeCollection.addMapping(childNode1.getId(), childNode1);
-    nodeCollection.addMapping(childNode2.getId(), childNode2);
+    nodeCollection.getNodeMap().put(parent.getId(), parent);
+    nodeCollection.getNodeMap().put(childNode1.getId(), childNode1);
+    nodeCollection.getNodeMap().put(childNode2.getId(), childNode2);
   }
 
   private static Stream<GetParentTestScenario> generateTestCaseForGetParent() {
@@ -266,7 +270,7 @@ class FamilyTreeControllerTest {
     String expectedErrMessage = testCase.getErrMessage();
     try {
       familyTreeController.deleteNode(id);
-      assertEquals(false, nodeCollection.isNodePresent(id), testCaseName);
+      assertEquals(false, nodeCollection.getNodeMap().containsKey(id), testCaseName);
     } catch (Exception e) {
       assertEquals(expectedErrMessage, e.getMessage(), testCaseName);
     }

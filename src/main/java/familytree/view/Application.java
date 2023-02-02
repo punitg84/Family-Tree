@@ -122,7 +122,7 @@ public class Application {
   }
 
   private void getChildren() throws Exception {
-    log.info("Enter ID of the node to fetch childrens");
+    log.info("Enter ID of the node to fetch children");
 
     String id = scanner.nextLine();
 

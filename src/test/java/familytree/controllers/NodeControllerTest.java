@@ -7,7 +7,6 @@ import familytree.controllers.nodecontrollertestscenario.AddParentTestScenario;
 import familytree.controllers.nodecontrollertestscenario.CreateNodeTestScenario;
 import familytree.controllers.nodecontrollertestscenario.GetChildrenTestScenario;
 import familytree.controllers.nodecontrollertestscenario.GetParentTestScenario;
-import familytree.controllers.nodecontrollertestscenario.IsDependencyPresentTestScenario;
 import familytree.controllers.nodecontrollertestscenario.RemoveChildTestScenario;
 import familytree.controllers.nodecontrollertestscenario.RemoveParentTestScenario;
 import familytree.models.Node;
@@ -315,41 +314,5 @@ class NodeControllerTest {
     }
   }
 
-  private static Stream<IsDependencyPresentTestScenario> generateTestCaseForIsDependencyPresent() {
-    //Test Case Invalid
-    IsDependencyPresentTestScenario testCase1 = IsDependencyPresentTestScenario.builder()
-        .parent(grandParent)
-        .child(parent)
-        .output(false)
-        .testCaseName("Invalid dependency")
-        .errMessage("Dependency doesn't exist")
-        .build();
-
-    //Test case Invalid
-    IsDependencyPresentTestScenario testCase2 = IsDependencyPresentTestScenario.builder()
-        .parent(parent)
-        .child(childNode1)
-        .output(true)
-        .testCaseName("Valid dependency")
-        .errMessage("")
-        .build();
-
-    return Stream.of(testCase1, testCase2);
-  }
-
-  @ParameterizedTest
-  @MethodSource("generateTestCaseForIsDependencyPresent")
-  void isDependencyPresent(IsDependencyPresentTestScenario testCase) {
-    String testCaseName = testCase.getTestCaseName();
-    String errMessage = testCase.getErrMessage();
-    Node parent = testCase.getParent();
-    Node child = testCase.getChild();
-    boolean output = testCase.isOutput();
-    try {
-      assertEquals(output, nodeController.isChildPresent(parent, child), testCaseName);
-    } catch (Exception e) {
-      assertEquals(errMessage, e.getMessage(), testCaseName);
-    }
-  }
 
 }

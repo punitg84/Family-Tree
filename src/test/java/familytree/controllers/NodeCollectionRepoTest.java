@@ -55,8 +55,8 @@ class NodeCollectionRepoTest {
 
   @BeforeEach
   void setup() {
-    nodeCollection.addMapping(parent.getId(), parent);
-    nodeCollection.addMapping(childNode1.getId(), childNode1);
+    nodeCollection.getNodeMap().put(parent.getId(), parent);
+    nodeCollection.getNodeMap().put(childNode1.getId(), childNode1);
   }
 
   private static Stream<AddNodeTestScenario> generateTestCaseForAddNode() {
@@ -88,7 +88,7 @@ class NodeCollectionRepoTest {
     boolean output = testCase.isOutput();
     try {
       nodeCollectionRepo.addNode(toAdd);
-      assertEquals(output, nodeCollection.isNodePresent(toAdd.getId()), testCaseName);
+      assertEquals(output, nodeCollection.getNodeMap().containsKey(toAdd.getId()), testCaseName);
     } catch (Exception e) {
       assertEquals(errMessage, e.getMessage(), testCaseName);
     }

@@ -62,11 +62,11 @@ public class FamilyTreeController {
     queue.add(currNode);
 
     while (!queue.isEmpty()) {
-      Node child = queue.poll();
-      for (Node parent : nodeController.getChildren(child)) {
-        if (!descendants.contains(parent)) {
-          descendants.add(parent);
-          queue.add(parent);
+      Node parent = queue.poll();
+      for (Node child : nodeController.getChildren(parent)) {
+        if (!descendants.contains(child)) {
+          descendants.add(child);
+          queue.add(child);
         }
       }
     }
@@ -115,7 +115,7 @@ public class FamilyTreeController {
   }
 
   public boolean isCyclicDependency(Node parent, Node child) throws Exception {
-    return getDescendants(parent.getId()).contains(child);
+    return getDescendants(child.getId()).contains(parent);
   }
 
 }

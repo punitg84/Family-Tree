@@ -22,6 +22,7 @@ public class Node {
 
   @NotEmpty(message = ID_EMPTY_MESSAGE)
   @ToString.Include
+  @EqualsAndHashCode.Include
   private String id;
 
   @NotEmpty(message = NAME_EMPTY_MESSAGE)
@@ -32,6 +33,7 @@ public class Node {
 
   private Set<@NonNull Node> children;
 
+  @ToString.Include
   private Map<@NotEmpty String,@NotEmpty String> additionalInfo;
 
 }
