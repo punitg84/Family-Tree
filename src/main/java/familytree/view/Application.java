@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Application {
 
-  private Scanner scanner = new Scanner(System.in);
+  private static Scanner scanner = new Scanner(System.in);
   private boolean isUserExited;
   private FamilyTreeController familyTreeController;
 

@@ -2,7 +2,6 @@ package familytree.controllers.nodecollectioncontrollertestscenario;
 
 import familytree.models.Node;
 import familytree.testscenario.GenericTestScenario;
-import java.util.HashMap;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,10 +9,10 @@ import lombok.Getter;
 public class AddNodeTestScenario extends GenericTestScenario {
 
   private Node node;
-  private int output;
+  private boolean output;
 
   @Builder
-  public AddNodeTestScenario(String errMessage, String testCaseName, Node node, int output) {
+  public AddNodeTestScenario(String errMessage, String testCaseName, Node node, boolean output) {
     super(errMessage, testCaseName);
     this.node = node;
     this.output = output;

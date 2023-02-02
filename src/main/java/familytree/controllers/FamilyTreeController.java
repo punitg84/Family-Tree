@@ -1,6 +1,7 @@
 package familytree.controllers;
 
 import familytree.models.Node;
+import java.util.HashMap;
 import java.util.Set;
 
 public class FamilyTreeController {
@@ -54,7 +55,7 @@ public class FamilyTreeController {
     //atlast remove mapping from node collection controller
   }
 
-  public void addNode(String id, String name) {
+  public void addNode(String id, String name, HashMap<String,String> additionalInfo) {
     //call add node from node collection controller
   }
 
@@ -62,6 +63,10 @@ public class FamilyTreeController {
     //Fetch child and parent node
     //Traverse descendants of child
     //if parents found throw exception if not add the dependency
+  }
+
+  public boolean isCyclicDependency(Node parent,Node child){
+    return false;
   }
 
 }

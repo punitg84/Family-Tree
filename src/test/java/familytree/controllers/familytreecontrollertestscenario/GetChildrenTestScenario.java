@@ -9,21 +9,18 @@ import lombok.Getter;
 @Getter
 public class GetChildrenTestScenario extends GenericTestScenario {
 
-  private List<Node> nodes;
-  private Node currNode;
+  private String nodeId;
   private int output;
 
   @Builder
   public GetChildrenTestScenario(
       String errMessage,
       String testCaseName,
-      List<Node> nodes,
-      Node currNode,
+      String nodeId,
       int output) {
 
     super(errMessage, testCaseName);
-    this.nodes = nodes;
-    this.currNode = currNode;
+    this.nodeId = nodeId;
     this.output = output;
   }
 }

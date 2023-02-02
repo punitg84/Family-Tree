@@ -7,23 +7,16 @@ import lombok.Getter;
 
 @Getter
 public class DeleteNodeTestScenario extends GenericTestScenario {
-
-  private Node node;
   private String id;
-  private int nodeCollectionSize;
 
   @Builder
   public DeleteNodeTestScenario(
       String errMessage,
       String testCaseName,
-      Node node,
-      String id,
-      int nodeCollectionSize) {
+      String id) {
 
     super(errMessage, testCaseName);
-    this.node = node;
     this.id = id;
-    this.nodeCollectionSize = nodeCollectionSize;
   }
 
 }

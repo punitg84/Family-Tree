@@ -1,6 +1,7 @@
 package familytree.controllers;
 
 import familytree.models.Node;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public class NodeController {
     return null;
   }
 
-  public Node createNode(String id,String name, List<String> additionalInfo){
+  public Node createNode(String id,String name, HashMap<String,String> additionalInfo){
     //return object of node
     return null;
   }
@@ -35,7 +36,11 @@ public class NodeController {
     //remove it
   }
 
-  public void removeParent(Node node){
+  public void addParent(Node parent,Node child){
+
+  }
+
+  public void removeParent(Node parent,Node child){
     //remove parent to null
   }
 

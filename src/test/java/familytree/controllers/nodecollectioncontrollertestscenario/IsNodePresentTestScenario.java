@@ -1,22 +1,20 @@
 package familytree.controllers.nodecollectioncontrollertestscenario;
 
-import familytree.models.Node;
 import familytree.testscenario.GenericTestScenario;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class GetNodeTestScenario extends GenericTestScenario {
-
-  private Node node;
+public class IsNodePresentTestScenario extends GenericTestScenario {
   private String id;
+  private boolean output;
 
   @Builder
-  public GetNodeTestScenario(String errMessage, String testCaseName, Node node, String id) {
+  public IsNodePresentTestScenario(String errMessage, String testCaseName, String id,
+                                   boolean output) {
     super(errMessage, testCaseName);
-    this.node = node;
     this.id = id;
+    this.output = output;
   }
 
 }

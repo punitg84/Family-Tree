@@ -2,24 +2,26 @@ package familytree.controllers.familytreecontrollertestscenario;
 
 import familytree.models.Node;
 import familytree.testscenario.GenericTestScenario;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class GetAncestorsTestScenario extends GenericTestScenario {
-  private String nodeId;
-  private int output;
+public class IsCyclicDependencyTestScenario extends GenericTestScenario {
+  private Node parent;
+  private Node child;
+  private boolean output;
 
   @Builder
-  public GetAncestorsTestScenario(
+  public IsCyclicDependencyTestScenario(
       String errMessage,
       String testCaseName,
-      String nodeId,
-      int output) {
+      Node parent,
+      Node child,
+      boolean output) {
 
     super(errMessage, testCaseName);
-    this.nodeId = nodeId;
+    this.parent = parent;
+    this.child = child;
     this.output = output;
   }
 

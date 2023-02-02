@@ -6,14 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class AddChildTestScenario extends GenericTestScenario {
-
-  Node parent, child;
-  int output;
+public class IsDependencyPresentTestScenario extends GenericTestScenario {
+  Node parent,child;
+  boolean output;
 
   @Builder
-  public AddChildTestScenario(String errMessage, String testCaseName, Node parent, Node child,
-                              int output) {
+  public IsDependencyPresentTestScenario(String errMessage, String testCaseName, Node parent,
+                                         Node child, boolean output) {
     super(errMessage, testCaseName);
     this.parent = parent;
     this.child = child;

@@ -11,7 +11,7 @@ public class NodeCollectionRepo {
     this.nodeCollection = nodeCollection;
   }
 
-  private boolean isNodePresent(String id){
+  public boolean isNodePresent(String id){
     return false;
   }
 
