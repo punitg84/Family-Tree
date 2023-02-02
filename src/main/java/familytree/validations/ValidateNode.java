@@ -15,7 +15,7 @@ public class ValidateNode {
   public static void validateNode(final Node node) throws Exception {
     final Set<ConstraintViolation<Node>> violations = VALIDATOR.validate(node);
     for (final ConstraintViolation<Node> violation : violations) {
-      throw new Exception(violation.getMessage());
+      throw new Exception(String.format("%1$s, value : %2$s",violation.getMessage(),violation.getInvalidValue()));
     }
   }
 

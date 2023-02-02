@@ -41,7 +41,7 @@ class ValidateNodeTest {
     //Test Case 2 - Invalid Node
     ValidateNodeTestScenario testCase2 = ValidateNodeTestScenario.builder()
         .node(invalidNode)
-        .errMessage("Name cant be empty or null")
+        .errMessage("Name cant be empty or null, value : ")
         .testCaseName("Invalid node - name empty")
         .build();
 

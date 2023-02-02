@@ -31,9 +31,11 @@ class FamilyTreeControllerTest {
   private static NodeCollection nodeCollection;
 
   @BeforeAll
-  static void init() {
+  static void init(){
+    nodeCollection = NodeCollection.getInstance();
+
     familyTreeController =
-        new FamilyTreeController(new NodeCollectionRepo(NodeCollection.getInstance()),
+        new FamilyTreeController(new NodeCollectionRepo(nodeCollection),
             new NodeController());
 
     parent = Node.builder()
@@ -46,24 +48,23 @@ class FamilyTreeControllerTest {
     childNode1 = Node.builder()
         .id("1")
         .name("child")
-        .parent(new HashSet<>(Arrays.asList(parent)))
+        .parent(new HashSet<>())
         .children(new HashSet<>())
         .build();
 
     childNode2 = Node.builder()
         .id("2")
         .name("child")
-        .parent(new HashSet<>(Arrays.asList(parent)))
+        .parent(new HashSet<>())
         .children(new HashSet<>())
         .build();
-
-    parent.setChildren(new HashSet<>(Arrays.asList(childNode1, childNode2)));
-
-    nodeCollection = NodeCollection.getInstance();
   }
 
   @BeforeEach
-  void setup() {
+  void setup(){
+    parent.setChildren(new HashSet<>(Arrays.asList(childNode1, childNode2)));
+    childNode1.getParent().add(parent);
+    childNode2.getParent().add(parent);
     nodeCollection.getNodeMap().put(parent.getId(), parent);
     nodeCollection.getNodeMap().put(childNode1.getId(), childNode1);
     nodeCollection.getNodeMap().put(childNode2.getId(), childNode2);
@@ -191,7 +192,7 @@ class FamilyTreeControllerTest {
         .errMessage("")
         .build();
 
-    return Stream.of(testCase1, testCase2);
+    return Stream.of( testCase1,testCase2);
   }
 
   @ParameterizedTest
@@ -223,7 +224,7 @@ class FamilyTreeControllerTest {
         .parentId("1")
         .childId("3")
         .testCaseName("no dependency exist")
-        .errMessage("no dependency exist")
+        .errMessage("Child with given id doesn't exist 3")
         .build();
 
     return Stream.of(testCase1, testCase2);
@@ -249,7 +250,7 @@ class FamilyTreeControllerTest {
     DeleteNodeTestScenario testCase1 = DeleteNodeTestScenario.builder()
         .id("4")
         .testCaseName("node doesn't exist")
-        .errMessage("node doesn't exist")
+        .errMessage("ID doesn't exist : 4")
         .build();
 
     //Test Case 2 Id exist
@@ -296,7 +297,7 @@ class FamilyTreeControllerTest {
           put("Gender", "Male");
         }})
         .testCaseName("Invalid info")
-        .errMessage("Invalid info")
+        .errMessage("Id cannot be empty or null, value : ")
         .build();
 
     return Stream.of(testCase1, testCase2);
@@ -324,7 +325,7 @@ class FamilyTreeControllerTest {
         .parentId("3")
         .childId("1")
         .testCaseName("dependency exist")
-        .errMessage("dependency exist")
+        .errMessage("Parent with given id already exist 3")
         .build();
 
     //Test Case 2 no dependency exist
@@ -356,8 +357,8 @@ class FamilyTreeControllerTest {
   private static Stream<IsCyclicDependencyTestScenario> generateTestCaseForIsCyclicDependency() {
     //Test Case 1 dependency Exist
     IsCyclicDependencyTestScenario testCase1 = IsCyclicDependencyTestScenario.builder()
-        .parent(parent)
-        .child(childNode1)
+        .parent(childNode1)
+        .child(parent)
         .output(true)
         .testCaseName("cyclic dependency exist")
         .errMessage("cyclic dependency exist")

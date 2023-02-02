@@ -90,7 +90,7 @@ public class FamilyTreeController {
     }
 
     for (Node parent : nodeController.getParent(node)) {
-      nodeController.removeParent(parent, node);
+      nodeController.removeChild(parent, node);
     }
 
     nodeCollectionRepo.removeNode(id);
@@ -106,8 +106,9 @@ public class FamilyTreeController {
     Node parent = nodeCollectionRepo.getNode(parentId);
     Node child = nodeCollectionRepo.getNode(childId);
 
-    if(isCyclicDependency(parent,child)){
-      throw new Exception(String.format("Dependency is cyclic between %1$s and %2$s",parentId,childId));
+    if (isCyclicDependency(parent, child)) {
+      throw new Exception(
+          String.format("Dependency is cyclic between %1$s and %2$s", parentId, childId));
     }
 
     nodeController.addParent(parent, child);
@@ -115,7 +116,8 @@ public class FamilyTreeController {
   }
 
   public boolean isCyclicDependency(Node parent, Node child) throws Exception {
-    return getDescendants(child.getId()).contains(parent);
+    Set<Node> store = getDescendants(child.getId());
+    return store.contains(parent);
   }
 
 }

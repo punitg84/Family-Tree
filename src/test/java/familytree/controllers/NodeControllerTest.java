@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,39 +25,51 @@ class NodeControllerTest {
   private static NodeController nodeController;
   private static Node parent, childNode1, childNode2, grandParent;
 
-  @BeforeEach
-  void setup() {
+  @BeforeAll
+  static void init() {
     nodeController = new NodeController();
 
     grandParent = Node.builder()
         .id("4")
         .name("grand parent")
+        .parent(new HashSet<>())
+        .children(new HashSet<>())
         .build();
 
     parent = Node.builder()
         .id("3")
         .name("parent")
+        .parent(new HashSet<>())
+        .children(new HashSet<>())
         .build();
 
     childNode1 = Node.builder()
         .id("1")
         .name("child")
-        .parent(new HashSet<>(Arrays.asList(parent)))
+        .parent(new HashSet<>())
+        .children(new HashSet<>())
         .build();
 
     childNode2 = Node.builder()
         .id("2")
         .name("child")
-        .parent(new HashSet<>(Arrays.asList(parent)))
+        .parent(new HashSet<>())
+        .children(new HashSet<>())
         .build();
 
+  }
+
+  @BeforeEach
+  void setup(){
     parent.setChildren(new HashSet<>(Arrays.asList(childNode1, childNode2)));
+    childNode1.getParent().add(parent);
+    childNode2.getParent().add(parent);
   }
 
   private static Stream<GetParentTestScenario> generateTestCaseForGetParent() {
     //Test Case Node having 0 parent
     GetParentTestScenario testCase1 = GetParentTestScenario.builder()
-        .node(parent)
+        .node(grandParent)
         .output(0)
         .testCaseName("No parents")
         .errMessage("")
@@ -129,7 +143,7 @@ class NodeControllerTest {
           put("Gender", "Male");
         }})
         .testCaseName("Invalid info")
-        .errMessage("Invalid info")
+        .errMessage("Id cannot be empty or null, value : ")
         .build();
 
     //Test case valid node
@@ -178,7 +192,7 @@ class NodeControllerTest {
         .child(childNode1)
         .output(2)
         .testCaseName("Invalid addition")
-        .errMessage("Already dependency exist")
+        .errMessage("Child with given id already exist 1")
         .build();
 
     return Stream.of(testCase1, testCase2);
@@ -216,7 +230,7 @@ class NodeControllerTest {
         .child(childNode1)
         .output(2)
         .testCaseName("Invalid removal")
-        .errMessage("dependency doesn't exist")
+        .errMessage("Child with given id doesn't exist 1")
         .build();
 
     return Stream.of(testCase1, testCase2);
@@ -254,7 +268,7 @@ class NodeControllerTest {
         .child(childNode1)
         .output(1)
         .testCaseName("Invalid addition")
-        .errMessage("Already dependency exist")
+        .errMessage("Parent with given id already exist 3")
         .build();
 
     return Stream.of(testCase1, testCase2);
@@ -283,7 +297,7 @@ class NodeControllerTest {
         .child(parent)
         .output(0)
         .testCaseName("Invalid Removal")
-        .errMessage("Dependency doesn't exist")
+        .errMessage("Parent with given id doesn't exist 4")
         .build();
 
     //Test case Invalid
@@ -313,6 +327,5 @@ class NodeControllerTest {
       assertEquals(errMessage, e.getMessage(), testCaseName);
     }
   }
-
 
 }

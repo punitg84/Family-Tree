@@ -24,7 +24,9 @@ class NodeCollectionRepoTest {
 
   @BeforeAll
   static void init() {
-    nodeCollectionRepo = new NodeCollectionRepo(NodeCollection.getInstance());
+    nodeCollection = NodeCollection.getInstance();
+
+    nodeCollectionRepo = new NodeCollectionRepo(nodeCollection);
 
     parent = Node.builder()
         .id("3")
@@ -34,13 +36,13 @@ class NodeCollectionRepoTest {
     childNode1 = Node.builder()
         .id("1")
         .name("child")
-        .parent(new HashSet<>(Arrays.asList(parent)))
+        .parent(new HashSet<>())
         .build();
 
     validNode = Node.builder()
         .id("2")
         .name("valid Node")
-        .parent(new HashSet<>(Arrays.asList(parent)))
+        .parent(new HashSet<>())
         .build();
 
     duplicateIdNode = Node.builder()
@@ -48,13 +50,12 @@ class NodeCollectionRepoTest {
         .name("duplicate parent")
         .build();
 
-    parent.setChildren(new HashSet<>(Arrays.asList(childNode1)));
-
-    nodeCollection = NodeCollection.getInstance();
   }
 
   @BeforeEach
   void setup() {
+    parent.setChildren(new HashSet<>(Arrays.asList(childNode1)));
+    childNode1.getParent().add(parent);
     nodeCollection.getNodeMap().put(parent.getId(), parent);
     nodeCollection.getNodeMap().put(childNode1.getId(), childNode1);
   }
@@ -73,7 +74,7 @@ class NodeCollectionRepoTest {
         .node(duplicateIdNode)
         .output(false)
         .testCaseName("Adding invalid node")
-        .errMessage("Id already exist")
+        .errMessage("ID already exist : 3")
         .build();
 
     return Stream.of(testCase1, testCase2);
@@ -108,7 +109,7 @@ class NodeCollectionRepoTest {
         .node(childNode1)
         .id("Invalid")
         .testCaseName("Getting invalid node")
-        .errMessage("Id doesn't exist")
+        .errMessage("ID doesn't exist : Invalid")
         .build();
 
     return Stream.of(testCase1, testCase2);
@@ -140,7 +141,7 @@ class NodeCollectionRepoTest {
     RemoveNodeTestScenario testCase2 = RemoveNodeTestScenario.builder()
         .id("Invalid")
         .testCaseName("Removing invalid node")
-        .errMessage("Id doesn't exist")
+        .errMessage("ID doesn't exist : Invalid")
         .build();
 
     return Stream.of(testCase1, testCase2);
