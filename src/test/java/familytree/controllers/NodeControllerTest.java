@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -347,7 +346,7 @@ class NodeControllerTest {
     Node child = testCase.getChild();
     boolean output = testCase.isOutput();
     try {
-      assertEquals(output, nodeController.isDependencyPresent(parent, child), testCaseName);
+      assertEquals(output, nodeController.isChildPresent(parent, child), testCaseName);
     } catch (Exception e) {
       assertEquals(errMessage, e.getMessage(), testCaseName);
     }

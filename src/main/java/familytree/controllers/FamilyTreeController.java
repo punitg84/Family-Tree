@@ -1,7 +1,10 @@
 package familytree.controllers;
 
 import familytree.models.Node;
-import java.util.HashMap;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class FamilyTreeController {
@@ -17,56 +20,102 @@ public class FamilyTreeController {
     this.nodeController = nodeController;
   }
 
-  public Set<Node> getParent(String id) {
-    //node collection controller to fetch the node
-    //node controller to get parent
-    return null;
+  public Set<Node> getParent(String id) throws Exception {
+    Node currNode = nodeCollectionRepo.getNode(id);
+
+    return nodeController.getParent(currNode);
   }
 
-  public Set<Node> getChildren(String id) {
-    //node collection controller to fetch the node
-    //node controller to get children
-    return null;
+  public Set<Node> getChildren(String id) throws Exception {
+    Node currNode = nodeCollectionRepo.getNode(id);
+
+    return nodeController.getChildren(currNode);
   }
 
-  public Set<Node> getAncestors(String id) {
-    //node collection controller to fetch the node
-    //BFS on parent chala do jab tak top par ni pohoch jaye
-    //list mein dalke de do
-    return null;
+  public Set<Node> getAncestors(String id) throws Exception {
+    Node currNode = nodeCollectionRepo.getNode(id);
+
+    Set<Node> ancestors = new HashSet<>();
+
+    Queue<Node> queue = new ArrayDeque<>();
+    queue.add(currNode);
+
+    while (!queue.isEmpty()) {
+      Node child = queue.poll();
+      for (Node parent : nodeController.getParent(child)) {
+        if (!ancestors.contains(parent)) {
+          ancestors.add(parent);
+          queue.add(parent);
+        }
+      }
+    }
+
+    return ancestors;
   }
 
-  public Set<Node> getDescendants(String id) {
-    //node collection controller to fetch the node
-    //BFS on child chala do jab tak niche ni pohoch jaye
-    //list mein dalke de do
-    return null;
+  public Set<Node> getDescendants(String id) throws Exception {
+    Node currNode = nodeCollectionRepo.getNode(id);
+
+    Set<Node> descendants = new HashSet<>();
+
+    Queue<Node> queue = new ArrayDeque<>();
+    queue.add(currNode);
+
+    while (!queue.isEmpty()) {
+      Node child = queue.poll();
+      for (Node parent : nodeController.getChildren(child)) {
+        if (!descendants.contains(parent)) {
+          descendants.add(parent);
+          queue.add(parent);
+        }
+      }
+    }
+
+    return descendants;
   }
 
-  public void deleteDependency(String parentId, String childrenId) {
-    //Fetch the node from node collection controller
-    //Call remove children in node controller and then call remove parent
+  public void deleteDependency(String parentId, String childId) throws Exception {
+    Node parent = nodeCollectionRepo.getNode(parentId);
+    Node child = nodeCollectionRepo.getNode(childId);
+
+    nodeController.removeChild(parent, child);
+    nodeController.removeParent(parent, child);
   }
 
-  public void deleteNode(String id) {
-    //Fetch the node from node collection controller
-    //Fetch children for the given node using node controller
-    //Now iterate one by one and delete its parent from node controller
-    //atlast remove mapping from node collection controller
+  public void deleteNode(String id) throws Exception {
+    Node node = nodeCollectionRepo.getNode(id);
+
+    for (Node child : nodeController.getChildren(node)) {
+      nodeController.removeParent(node, child);
+    }
+
+    for (Node parent : nodeController.getParent(node)) {
+      nodeController.removeParent(parent, node);
+    }
+
+    nodeCollectionRepo.removeNode(id);
   }
 
-  public void addNode(String id, String name, HashMap<String,String> additionalInfo) {
-    //call add node from node collection controller
+  public void addNode(String id, String name, Map<String, String> additionalInfo) throws Exception {
+    Node node = nodeController.createNode(id, name, additionalInfo);
+
+    nodeCollectionRepo.addNode(node);
   }
 
-  public void addDependency(String parentId, String childrenId) {
-    //Fetch child and parent node
-    //Traverse descendants of child
-    //if parents found throw exception if not add the dependency
+  public void addDependency(String parentId, String childId) throws Exception {
+    Node parent = nodeCollectionRepo.getNode(parentId);
+    Node child = nodeCollectionRepo.getNode(childId);
+
+    if(isCyclicDependency(parent,child)){
+      throw new Exception(String.format("Dependency is cyclic between %1$s and %2$s",parentId,childId));
+    }
+
+    nodeController.addParent(parent, child);
+    nodeController.addChild(parent, child);
   }
 
-  public boolean isCyclicDependency(Node parent,Node child){
-    return false;
+  public boolean isCyclicDependency(Node parent, Node child) throws Exception {
+    return getDescendants(parent.getId()).contains(child);
   }
 
 }
