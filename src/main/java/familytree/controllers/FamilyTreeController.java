@@ -9,40 +9,40 @@ import java.util.Set;
 
 public class FamilyTreeController {
 
-  private NodeCollectionRepo nodeCollectionRepo;
-  private NodeController nodeController;
+  private final NodeCollectionRepo nodeCollectionRepo;
+  private final NodeController nodeController;
 
   public FamilyTreeController(
-      NodeCollectionRepo nodeCollectionRepo,
-      NodeController nodeController) {
+      final NodeCollectionRepo nodeCollectionRepo,
+      final NodeController nodeController) {
 
     this.nodeCollectionRepo = nodeCollectionRepo;
     this.nodeController = nodeController;
   }
 
-  public Set<Node> getParent(String id) throws Exception {
-    Node currNode = nodeCollectionRepo.getNode(id);
+  public Set<Node> getParent(final String id) throws Exception {
+    final Node currNode = nodeCollectionRepo.getNode(id);
 
     return nodeController.getParent(currNode);
   }
 
-  public Set<Node> getChildren(String id) throws Exception {
-    Node currNode = nodeCollectionRepo.getNode(id);
+  public Set<Node> getChildren(final String id) throws Exception {
+    final Node currNode = nodeCollectionRepo.getNode(id);
 
     return nodeController.getChildren(currNode);
   }
 
-  public Set<Node> getAncestors(String id) throws Exception {
-    Node currNode = nodeCollectionRepo.getNode(id);
+  public Set<Node> getAncestors(final String id) throws Exception {
+    final Node currNode = nodeCollectionRepo.getNode(id);
 
-    Set<Node> ancestors = new HashSet<>();
+    final Set<Node> ancestors = new HashSet<>();
 
-    Queue<Node> queue = new ArrayDeque<>();
+    final Queue<Node> queue = new ArrayDeque<>();
     queue.add(currNode);
 
     while (!queue.isEmpty()) {
-      Node child = queue.poll();
-      for (Node parent : nodeController.getParent(child)) {
+      final Node child = queue.poll();
+      for (final Node parent : nodeController.getParent(child)) {
         if (!ancestors.contains(parent)) {
           ancestors.add(parent);
           queue.add(parent);
@@ -53,17 +53,17 @@ public class FamilyTreeController {
     return ancestors;
   }
 
-  public Set<Node> getDescendants(String id) throws Exception {
-    Node currNode = nodeCollectionRepo.getNode(id);
+  public Set<Node> getDescendants(final String id) throws Exception {
+    final Node currNode = nodeCollectionRepo.getNode(id);
 
-    Set<Node> descendants = new HashSet<>();
+    final Set<Node> descendants = new HashSet<>();
 
-    Queue<Node> queue = new ArrayDeque<>();
+    final Queue<Node> queue = new ArrayDeque<>();
     queue.add(currNode);
 
     while (!queue.isEmpty()) {
-      Node parent = queue.poll();
-      for (Node child : nodeController.getChildren(parent)) {
+      final Node parent = queue.poll();
+      for (final Node child : nodeController.getChildren(parent)) {
         if (!descendants.contains(child)) {
           descendants.add(child);
           queue.add(child);
@@ -74,37 +74,41 @@ public class FamilyTreeController {
     return descendants;
   }
 
-  public void deleteDependency(String parentId, String childId) throws Exception {
-    Node parent = nodeCollectionRepo.getNode(parentId);
-    Node child = nodeCollectionRepo.getNode(childId);
+  public void deleteDependency(final String parentId, final String childId) throws Exception {
+    final Node parent = nodeCollectionRepo.getNode(parentId);
+    final Node child = nodeCollectionRepo.getNode(childId);
 
     nodeController.removeChild(parent, child);
     nodeController.removeParent(parent, child);
   }
 
-  public void deleteNode(String id) throws Exception {
-    Node node = nodeCollectionRepo.getNode(id);
+  public void deleteNode(final String id) throws Exception {
+    final Node node = nodeCollectionRepo.getNode(id);
 
-    for (Node child : nodeController.getChildren(node)) {
+    for (final Node child : nodeController.getChildren(node)) {
       nodeController.removeParent(node, child);
     }
 
-    for (Node parent : nodeController.getParent(node)) {
+    for (final Node parent : nodeController.getParent(node)) {
       nodeController.removeChild(parent, node);
     }
 
     nodeCollectionRepo.removeNode(id);
   }
 
-  public void addNode(String id, String name, Map<String, String> additionalInfo) throws Exception {
-    Node node = nodeController.createNode(id, name, additionalInfo);
+  public void addNode(
+      final String id,
+      final String name,
+      final Map<String, String> additionalInfo) throws Exception {
+
+    final Node node = nodeController.createNode(id, name, additionalInfo);
 
     nodeCollectionRepo.addNode(node);
   }
 
-  public void addDependency(String parentId, String childId) throws Exception {
-    Node parent = nodeCollectionRepo.getNode(parentId);
-    Node child = nodeCollectionRepo.getNode(childId);
+  public void addDependency(final String parentId, final String childId) throws Exception {
+    final Node parent = nodeCollectionRepo.getNode(parentId);
+    final Node child = nodeCollectionRepo.getNode(childId);
 
     if (isCyclicDependency(parent, child)) {
       throw new Exception(
@@ -115,9 +119,8 @@ public class FamilyTreeController {
     nodeController.addChild(parent, child);
   }
 
-  public boolean isCyclicDependency(Node parent, Node child) throws Exception {
-    Set<Node> store = getDescendants(child.getId());
-    return store.contains(parent);
+  public boolean isCyclicDependency(final Node parent, final Node child) throws Exception {
+    return getDescendants(child.getId()).contains(parent);
   }
 
 }

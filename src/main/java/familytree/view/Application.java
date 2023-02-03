@@ -19,8 +19,8 @@ public class Application {
 
   public Application() {
     familyTreeController = new FamilyTreeController(
-        new NodeCollectionRepo(NodeCollection.getInstance())
-        , new NodeController());
+        new NodeCollectionRepo(NodeCollection.getInstance()),
+        new NodeController());
   }
 
   private static int inputInteger() throws Exception {
@@ -44,11 +44,11 @@ public class Application {
   }
 
   private void addNode() throws Exception {
-    log.info("Enter Info in the following order line by line\n" +
-        "1. ID\n" +
-        "2. Name\n" +
-        "3. Number of additional info\n" +
-        "4. Space separated key value pairs line by line");
+    log.info("Enter Info in the following order line by line\n"
+        + "1. ID\n"
+        + "2. Name\n"
+        + "3. Number of additional info\n"
+        + "4. Space separated key value pairs line by line");
 
     String id = scanner.nextLine();
     String name = scanner.nextLine();
@@ -70,9 +70,9 @@ public class Application {
   }
 
   private void addDependency() throws Exception {
-    log.info("Enter ID in the following order line by line\n" +
-        "1. Parent\n" +
-        "2. Child");
+    log.info("Enter ID in the following order line by line\n"
+        + "1. Parent\n"
+        + "2. Child");
 
     String parentId = scanner.nextLine();
     String childId = scanner.nextLine();
@@ -93,9 +93,9 @@ public class Application {
   }
 
   private void deleteDependency() throws Exception {
-    log.info("Enter ID in the following order line by line\n" +
-        "1. Parent\n" +
-        "2.Child");
+    log.info("Enter ID in the following order line by line\n"
+        + "1. Parent\n"
+        + "2.Child");
 
     String parentId = scanner.nextLine();
     String childId = scanner.nextLine();
@@ -140,6 +140,7 @@ public class Application {
   private void selectOptionFromMenu() {
     try {
       int option = inputInteger();
+
       switch (option) {
         case UserChoice.GET_IMMEDIATE_PARENT_OPTION -> getParent();
         case UserChoice.GET_IMMEDIATE_CHILDREN_OPTION -> getChildren();
@@ -152,22 +153,23 @@ public class Application {
         case UserChoice.EXIT_OPTION -> exitMenu();
         default -> throw new Exception(String.format("Invalid Option : %s", option));
       }
+
     } catch (Exception e) {
       showErrors(e);
     }
   }
 
   private void showMenu() {
-    log.info("Select one of the 9 option available by entering a number\n" +
-        "1. Get the immediate parents of a node\n" +
-        "2. Get the immediate children of a node\n" +
-        "3. Get the ancestors of a node\n" +
-        "4. Get the descendants of a node\n" +
-        "5. Delete dependency from a tree\n" +
-        "6. Delete a node from a tree\n" +
-        "7. Add a new dependency to a tree\n" +
-        "8. Add a new node to tree\n" +
-        "9. Exit");
+    log.info("Select one of the 9 option available by entering a number\n"
+        + "1. Get the immediate parents of a node\n"
+        + "2. Get the immediate children of a node\n"
+        + "3. Get the ancestors of a node\n"
+        + "4. Get the descendants of a node\n"
+        + "5. Delete dependency from a tree\n"
+        + "6. Delete a node from a tree\n"
+        + "7. Add a new dependency to a tree\n"
+        + "8. Add a new node to tree\n"
+        + "9. Exit");
 
     selectOptionFromMenu();
   }

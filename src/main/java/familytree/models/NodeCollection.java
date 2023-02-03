@@ -6,7 +6,7 @@ import java.util.Objects;
 import lombok.Getter;
 
 @Getter
-public class NodeCollection {
+public final class NodeCollection {
 
   private static NodeCollection nodeCollectionInstance;
   private Map<String, Node> nodeMap;

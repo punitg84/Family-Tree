@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.Map;
 import java.util.Set;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -16,19 +15,21 @@ import lombok.ToString;
 @Getter
 @Setter
 @Builder
+@ToString
 public class Node {
 
   @NotEmpty(message = ID_EMPTY_MESSAGE)
-  @EqualsAndHashCode.Include
   private String id;
 
   @NotEmpty(message = NAME_EMPTY_MESSAGE)
   private String name;
 
+  @ToString.Exclude
   private Set<@NonNull Node> parent;
 
+  @ToString.Exclude
   private Set<@NonNull Node> children;
 
-  private Map<@NotEmpty String,@NotEmpty String> additionalInfo;
+  private Map<@NotEmpty String, @NotEmpty String> additionalInfo;
 
 }

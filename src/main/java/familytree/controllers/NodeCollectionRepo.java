@@ -5,18 +5,18 @@ import familytree.models.NodeCollection;
 
 public class NodeCollectionRepo {
 
-  private NodeCollection nodeCollection;
+  private final NodeCollection nodeCollection;
 
-  public NodeCollectionRepo(NodeCollection nodeCollection) {
+  public NodeCollectionRepo(final NodeCollection nodeCollection) {
     this.nodeCollection = nodeCollection;
   }
 
-  public boolean isNodePresent(String id) {
+  public boolean isNodePresent(final String id) {
     return nodeCollection.getNodeMap().containsKey(id);
   }
 
-  public void addNode(Node node) throws Exception {
-    String id = node.getId();
+  public void addNode(final Node node) throws Exception {
+    final String id = node.getId();
 
     if (isNodePresent(id)) {
       throw new Exception(String.format("ID already exist : %s", id));
@@ -25,7 +25,7 @@ public class NodeCollectionRepo {
     nodeCollection.getNodeMap().put(id, node);
   }
 
-  public Node getNode(String id) throws Exception {
+  public Node getNode(final String id) throws Exception {
     if (!isNodePresent(id)) {
       throw new Exception(String.format("ID doesn't exist : %s", id));
     }
@@ -33,7 +33,7 @@ public class NodeCollectionRepo {
     return nodeCollection.getNodeMap().get(id);
   }
 
-  public void removeNode(String id) throws Exception {
+  public void removeNode(final String id) throws Exception {
     if (!isNodePresent(id)) {
       throw new Exception(String.format("ID doesn't exist : %s", id));
     }

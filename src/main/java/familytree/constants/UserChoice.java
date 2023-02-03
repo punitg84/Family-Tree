@@ -1,6 +1,7 @@
 package familytree.constants;
 
 public class UserChoice {
+
   public static final int GET_IMMEDIATE_PARENT_OPTION = 1;
   public static final int GET_IMMEDIATE_CHILDREN_OPTION = 2;
   public static final int GET_ANCESTORS_OPTION = 3;

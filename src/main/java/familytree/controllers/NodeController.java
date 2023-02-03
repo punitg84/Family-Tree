@@ -9,25 +9,28 @@ import java.util.Set;
 
 public class NodeController {
 
-  public boolean isChildPresent(Node parent, Node child){
+  public boolean isChildPresent(final Node parent, final Node child) {
     return parent.getChildren().contains(child);
   }
 
-  public boolean isParentPreset(Node parent, Node child){
+  public boolean isParentPreset(final Node parent, final Node child) {
     return child.getParent().contains(parent);
   }
 
-  public Set<Node> getParent(Node node){
+  public Set<Node> getParent(final Node node) {
     return node.getParent();
   }
 
-  public Set<Node> getChildren(Node node){
+  public Set<Node> getChildren(final Node node) {
     return node.getChildren();
   }
 
-  public Node createNode(String id,String name, Map<String,String> additionalInfo)
-      throws Exception {
-    Node node = Node.builder()
+  public Node createNode(
+      final String id,
+      final String name,
+      final Map<String, String> additionalInfo) throws Exception {
+
+    final Node node = Node.builder()
         .name(name)
         .id(id)
         .additionalInfo(additionalInfo)
@@ -40,33 +43,33 @@ public class NodeController {
     return node;
   }
 
-  public void addChild(Node parent,Node child) throws Exception {
-    if(isChildPresent(parent,child)){
-      throw new Exception(String.format("Child with given id already exist %s",child.getId()));
+  public void addChild(final Node parent, final Node child) throws Exception {
+    if (isChildPresent(parent, child)) {
+      throw new Exception(String.format("Child with given id already exist %s", child.getId()));
     }
 
     parent.getChildren().add(child);
   }
 
-  public void removeChild(Node parent,Node child) throws Exception {
-    if(!isChildPresent(parent,child)){
-      throw new Exception(String.format("Child with given id doesn't exist %s",child.getId()));
+  public void removeChild(final Node parent, final Node child) throws Exception {
+    if (!isChildPresent(parent, child)) {
+      throw new Exception(String.format("Child with given id doesn't exist %s", child.getId()));
     }
 
     parent.getChildren().remove(child);
   }
 
-  public void addParent(Node parent,Node child) throws Exception {
-    if(isParentPreset(parent,child)){
-      throw new Exception(String.format("Parent with given id already exist %s",parent.getId()));
+  public void addParent(final Node parent, final Node child) throws Exception {
+    if (isParentPreset(parent, child)) {
+      throw new Exception(String.format("Parent with given id already exist %s", parent.getId()));
     }
 
     child.getParent().add(parent);
   }
 
-  public void removeParent(Node parent,Node child) throws Exception {
-    if(!isParentPreset(parent,child)){
-      throw new Exception(String.format("Parent with given id doesn't exist %s",parent.getId()));
+  public void removeParent(final Node parent, final Node child) throws Exception {
+    if (!isParentPreset(parent, child)) {
+      throw new Exception(String.format("Parent with given id doesn't exist %s", parent.getId()));
     }
 
     child.getParent().remove(parent);
