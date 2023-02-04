@@ -1,7 +1,7 @@
 package familytree.models;
 
-import static familytree.constants.ValidationMessage.ID_EMPTY_MESSAGE;
-import static familytree.constants.ValidationMessage.NAME_EMPTY_MESSAGE;
+import static familytree.constants.ValidationMessage.ID_EMPTY_ERROR_MESSAGE;
+import static familytree.constants.ValidationMessage.NAME_EMPTY_ERROR_MESSAGE;
 
 import jakarta.validation.constraints.NotEmpty;
 import java.util.Map;
@@ -18,10 +18,10 @@ import lombok.ToString;
 @ToString
 public class Node {
 
-  @NotEmpty(message = ID_EMPTY_MESSAGE)
+  @NotEmpty(message = ID_EMPTY_ERROR_MESSAGE)
   private String id;
 
-  @NotEmpty(message = NAME_EMPTY_MESSAGE)
+  @NotEmpty(message = NAME_EMPTY_ERROR_MESSAGE)
   private String name;
 
   @ToString.Exclude

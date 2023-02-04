@@ -1,6 +1,6 @@
 package familytree.view;
 
-import familytree.constants.UserChoice;
+import familytree.constants.UserOption;
 import familytree.controllers.FamilyTreeController;
 import familytree.controllers.NodeCollectionRepo;
 import familytree.controllers.NodeController;
@@ -8,6 +8,7 @@ import familytree.models.NodeCollection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -15,7 +16,7 @@ public class Application {
 
   private static Scanner scanner = new Scanner(System.in);
   private boolean isUserExited;
-  private FamilyTreeController familyTreeController;
+  private final FamilyTreeController familyTreeController;
 
   public Application() {
     familyTreeController = new FamilyTreeController(
@@ -43,6 +44,22 @@ public class Application {
     isUserExited = true;
   }
 
+  private Map<String,String> inputAdditionalInfo(final int noOfAdditionalInfo){
+    final Map<String,String> additionalInfo = new HashMap<>();
+
+    IntStream.rangeClosed(1,noOfAdditionalInfo).forEach(e->{
+      log.info("Enter key %s\n",e);
+      final String key = scanner.nextLine();
+
+      log.info("Enter value %s\n",e);
+      final String value = scanner.nextLine();
+
+      additionalInfo.put(key,value);
+    });
+
+    return additionalInfo;
+  }
+
   private void addNode() throws Exception {
     log.info("Enter Info in the following order line by line\n"
         + "1. ID\n"
@@ -50,19 +67,10 @@ public class Application {
         + "3. Number of additional info\n"
         + "4. Space separated key value pairs line by line");
 
-    String id = scanner.nextLine();
-    String name = scanner.nextLine();
-    int noOfAdditionalInfo = inputInteger();
-    Map<String, String> additionalInfo = new HashMap<>();
-
-    for (int i = 1; i <= noOfAdditionalInfo; i++) {
-      String input = scanner.nextLine();
-      String[] parts = input.split(" ", 2);
-      if (parts.length != 2) {
-        throw new Exception(String.format("Invalid input %s", input));
-      }
-      additionalInfo.put(parts[0], parts[1]);
-    }
+    final String id = scanner.nextLine();
+    final String name = scanner.nextLine();
+    final int noOfAdditionalInfo = inputInteger();
+    final Map<String, String> additionalInfo = inputAdditionalInfo(noOfAdditionalInfo);
 
     familyTreeController.addNode(id, name, additionalInfo);
 
@@ -74,8 +82,8 @@ public class Application {
         + "1. Parent\n"
         + "2. Child");
 
-    String parentId = scanner.nextLine();
-    String childId = scanner.nextLine();
+    final String parentId = scanner.nextLine();
+    final String childId = scanner.nextLine();
 
     familyTreeController.addDependency(parentId, childId);
 
@@ -85,7 +93,7 @@ public class Application {
   private void deleteNode() throws Exception {
     log.info("Enter ID of the node to delete it");
 
-    String id = scanner.nextLine();
+    final String id = scanner.nextLine();
 
     familyTreeController.deleteNode(id);
 
@@ -97,8 +105,8 @@ public class Application {
         + "1. Parent\n"
         + "2.Child");
 
-    String parentId = scanner.nextLine();
-    String childId = scanner.nextLine();
+    final String parentId = scanner.nextLine();
+    final String childId = scanner.nextLine();
 
     familyTreeController.deleteDependency(parentId, childId);
 
@@ -108,7 +116,7 @@ public class Application {
   private void getDescendants() throws Exception {
     log.info("Enter ID of the node to fetch descendants");
 
-    String id = scanner.nextLine();
+    final String id = scanner.nextLine();
 
     log.info(familyTreeController.getDescendants(id));
   }
@@ -116,7 +124,7 @@ public class Application {
   private void getAncestors() throws Exception {
     log.info("Enter ID of the node to fetch ancestors");
 
-    String id = scanner.nextLine();
+    final String id = scanner.nextLine();
 
     log.info(familyTreeController.getAncestors(id));
   }
@@ -124,7 +132,7 @@ public class Application {
   private void getChildren() throws Exception {
     log.info("Enter ID of the node to fetch children");
 
-    String id = scanner.nextLine();
+    final String id = scanner.nextLine();
 
     log.info(familyTreeController.getChildren(id));
   }
@@ -132,25 +140,25 @@ public class Application {
   private void getParent() throws Exception {
     log.info("Enter ID of the node to fetch parents");
 
-    String id = scanner.nextLine();
+    final String id = scanner.nextLine();
 
     log.info(familyTreeController.getParent(id));
   }
 
   private void selectOptionFromMenu() {
     try {
-      int option = inputInteger();
+      final int option = inputInteger();
 
       switch (option) {
-        case UserChoice.GET_IMMEDIATE_PARENT_OPTION -> getParent();
-        case UserChoice.GET_IMMEDIATE_CHILDREN_OPTION -> getChildren();
-        case UserChoice.GET_ANCESTORS_OPTION -> getAncestors();
-        case UserChoice.GET_DESCENDANTS_OPTION -> getDescendants();
-        case UserChoice.DELETE_DEPENDENCY_OPTION -> deleteDependency();
-        case UserChoice.DELETE_NODE_OPTION -> deleteNode();
-        case UserChoice.ADD_DEPENDENCY_OPTION -> addDependency();
-        case UserChoice.ADD_NODE_OPTION -> addNode();
-        case UserChoice.EXIT_OPTION -> exitMenu();
+        case UserOption.GET_IMMEDIATE_PARENT_OPTION -> getParent();
+        case UserOption.GET_IMMEDIATE_CHILDREN_OPTION -> getChildren();
+        case UserOption.GET_ANCESTORS_OPTION -> getAncestors();
+        case UserOption.GET_DESCENDANTS_OPTION -> getDescendants();
+        case UserOption.DELETE_DEPENDENCY_OPTION -> deleteDependency();
+        case UserOption.DELETE_NODE_OPTION -> deleteNode();
+        case UserOption.ADD_DEPENDENCY_OPTION -> addDependency();
+        case UserOption.ADD_NODE_OPTION -> addNode();
+        case UserOption.EXIT_OPTION -> exitMenu();
         default -> throw new Exception(String.format("Invalid Option : %s", option));
       }
 
